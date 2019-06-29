@@ -12,7 +12,7 @@
         <ByteLimit>50</ByteLimit>
     </Stack>
     <DebugChecksum>
-        <Checksum>1157761578</Checksum>
+        <Checksum>2330488910</Checksum>
     </DebugChecksum>
     <CodeCoverage>
         <Enabled>_ 0</Enabled>
@@ -118,7 +118,7 @@
         <ProbeSetup2>4 1 1 10 0 0</ProbeSetup2>
     </PowerProbe>
     <Breakpoints>
-        <Bp0>_ "STD_CODE" "{$PROJ_DIR$\SysmonSays.c}.255.1" 0 0 0 0 "" 0 ""</Bp0>
+        <Bp0>_ "STD_CODE" "{$PROJ_DIR$\SysmonSays.c}.287.1" 0 0 0 0 "" 0 ""</Bp0>
         <Count>1</Count>
     </Breakpoints>
     <FET>

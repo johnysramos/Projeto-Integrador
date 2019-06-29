@@ -27,7 +27,10 @@ int estado = 3; // 0 = Mostrando a sequência de leds
 int ctPosicaoVetor = 0;
 int ctAcerto = 2; // Contador de acerto (começa em dois porque o jogo começa acendendo dois leds)
 bool ligaLed = false;
-unsigned char pontuacao[3];
+unsigned char pontuacao[4];
+bool multAcerto = true;
+int ctUn = 0;
+int delay = 0;
 
 void main(void)
 {
@@ -54,7 +57,7 @@ void main(void)
   GotoXY(0,0);              //Posiciona Cursor
   MString("   SIMON SAYS   "); //Escreve "Dimmer" no display
   GotoXY(1,0);              //Posiciona Cursor na segunda linha do display
-  MString(" PRESS TO START "); //Apaga segunda linha do display 
+  MString("   PRESS START  "); //Apaga segunda linha do display 
 
   __delay_cycles(1000);
 
@@ -95,38 +98,52 @@ __interrupt void isr_TIMERA0(void) {
     switch (estado) {
       case 0:
         
-        GotoXY(0,0);              //Posiciona Cursor
-        MString("                "); //Escreve "Dimmer" no display
-        GotoXY(1,0);              //Posiciona Cursor na segunda linha do display
-        MString("                "); //Apaga segunda linha do display 
+        delay++;
         
-        if (ctTimer%2 == 0) {
-          if (vetorPosicao[ctPosicaoVetor] == 0) {
-            P2OUT |= BIT0;
-          }
-          if (vetorPosicao[ctPosicaoVetor] == 1) {
-            P2OUT |= BIT1;
-          }
-           if (vetorPosicao[ctPosicaoVetor] == 2) {
-            P2OUT |= BIT2;
-          }
-           if (vetorPosicao[ctPosicaoVetor] == 3) {
-            P2OUT |= BIT3;
-          }
-        }
-        if ((ctTimer%4 == 0) & (ctTimer >=4)) {
-          P2OUT = 0x00;
-          ctPosicaoVetor ++;
-        }
+        multAcerto = true;
         
-        if ((ctTimer/4) == ctAcerto) {
-          estado = 1;
-          ctTimer = 1;
-          ctPosicaoVetor = 0;
+        if (delay >= 4) {
+          GotoXY(0,0);              //Posiciona Cursor
+          MString("    EXIBINDO    "); //Escreve no display
+          GotoXY(1,0);              //Posiciona Cursor
+          MString("    SEQUENCIA..."); //Escreve no display
+          
+          if (ctTimer%2 == 0) {
+            if (vetorPosicao[ctPosicaoVetor] == 0) {
+              P2OUT |= BIT0;
+            }
+            if (vetorPosicao[ctPosicaoVetor] == 1) {
+              P2OUT |= BIT1;
+            }
+             if (vetorPosicao[ctPosicaoVetor] == 2) {
+              P2OUT |= BIT2;
+            }
+             if (vetorPosicao[ctPosicaoVetor] == 3) {
+              P2OUT |= BIT3;
+            }
+          }
+          if ((ctTimer%4 == 0) & (ctTimer >=4)) {
+            P2OUT = 0x00;
+            ctPosicaoVetor ++;
+          }
+          
+          if ((ctTimer/4) == ctAcerto) {
+            estado = 1;
+            ctTimer = 1;
+            ctPosicaoVetor = 0;
+          }
+          ctTimer++;
+        
         }
-        ctTimer++;
         break;
     case 1:
+      
+        delay = 0;
+      
+        GotoXY(0,0);              //Posiciona Cursor
+        MString("     DIGITE     "); //Escreve no display
+        GotoXY(1,0);              //Posiciona Cursor
+        MString("   A SEQUENCIA:  "); //Escreve no display
       
         if ((ctPosicaoVetor) == ctAcerto) {
           vetorPosicao[ctPosicaoVetor] = rand()%4;
@@ -139,18 +156,22 @@ __interrupt void isr_TIMERA0(void) {
           if (vetorPosicao[ctPosicaoVetor] == 0) {
             P2OUT |= BIT0;
             ligaLed = false;
+            ctUn++;
         }
         if (vetorPosicao[ctPosicaoVetor] == 1) {
             P2OUT |= BIT1;
             ligaLed = false;
+            ctUn++;
         }
         if (vetorPosicao[ctPosicaoVetor] == 2) {
             P2OUT |= BIT2;
             ligaLed = false;
+            ctUn++;
         }
         if (vetorPosicao[ctPosicaoVetor] == 3) {
             P2OUT |= BIT3;
             ligaLed = false;
+            ctUn++;
         }
         ctPosicaoVetor++;
       }
@@ -163,23 +184,32 @@ __interrupt void isr_TIMERA0(void) {
       
       P2OUT ^= 0xff;
       
+        if (multAcerto == true) {  
+          ctAcerto = ((ctAcerto-2)*10)+ctUn;
+          multAcerto = false;
+        }
       
-        int cent = (ctAcerto-2)/100;
-        int dec = ((ctAcerto-2)%100)/10;
-        int un = (((ctAcerto-2)%100)%10);
+        int mil = ctAcerto/1000;
+        ctAcerto = ctAcerto%1000;
+        int cent = ctAcerto/100;
+        ctAcerto = ctAcerto%100;
+        int dec = ctAcerto/10;
+        int un = ctAcerto%10;
+        mil = mil + '0';
         cent = cent + '0';
         dec = dec + '0';
         un = un + '0';
-        pontuacao[0] = cent;
-        pontuacao[1] = dec;
-        pontuacao[2] = un;
+        pontuacao[0] = mil;
+        pontuacao[1] = cent;
+        pontuacao[2] = dec;
+        pontuacao[3] = un;
       
       GotoXY(1,0);              //Posiciona Cursor
-      MString("   SCORE: "); //Escreve no display
+      MString("  SCORE:  "); //Escreve no display
       GotoXY(1,10);              //Posiciona Cursor
       MString(pontuacao); //Escreve no display
-      GotoXY(1,13);
-      MString("   "); //Escreve no display
+      GotoXY(1,14);
+      MString("  "); //Escreve no display
       GotoXY(0,0);              //Posiciona Cursor
       MString("   GAME OVER!   "); //Escreve no display
       
@@ -206,6 +236,8 @@ __interrupt void ISR_RX(void) {
           ctTimer = 2; //Contador do timer para temporizar
           ctPosicaoVetor = 0;
           ctAcerto = 2; // Contador de acerto (começa em dois porque o jogo começa acendendo dois leds)
+          ctUn = 0;
+          delay = 0;
           ligaLed = false;
           vetorPosicao[0] = rand()%4;
           vetorPosicao[1] = rand()%4;
