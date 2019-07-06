@@ -5,63 +5,78 @@
     <configuration>
         <name>Debug</name>
         <outputs>
+            <file>$PROJ_DIR$\..\Teste_Alarme\Teste_Alarme.c</file>
+            <file>$TOOLKIT_DIR$\inc\dlib\c\ycheck.h</file>
+            <file>$TOOLKIT_DIR$\inc\dlib\c\DLib_Product.h</file>
+            <file>$PROJ_DIR$\Debug\List\SymonSays.map</file>
+            <file>$TOOLKIT_DIR$\lib\dlib\dl430fn.h</file>
+            <file>$PROJ_DIR$\Debug\Obj\LCD_Port1V3.__cstat.et</file>
             <file>$TOOLKIT_DIR$\inc\dlib\c\yvals.h</file>
+            <file>$TOOLKIT_DIR$\inc\dlib\c\DLib_Threads.h</file>
+            <file>$TOOLKIT_DIR$\lib\dlib\dl430fn.r43</file>
+            <file>$TOOLKIT_DIR$\inc\dlib\c\stdbool.h</file>
             <file>$PROJ_DIR$\LCD_Port1V3.c</file>
             <file>$PROJ_DIR$\SysmonSays.c</file>
-            <file>$TOOLKIT_DIR$\inc\dlib\c\DLib_Product.h</file>
-            <file>$TOOLKIT_DIR$\inc\dlib\c\ycheck.h</file>
-            <file>$TOOLKIT_DIR$\lib\dlib\dl430fn.r43</file>
-            <file>$PROJ_DIR$\Debug\List\SymonSays.map</file>
-            <file>$TOOLKIT_DIR$\inc\dlib\c\stdbool.h</file>
-            <file>$TOOLKIT_DIR$\lib\dlib\dl430fn.h</file>
-            <file>$TOOLKIT_DIR$\config\linker\lnk430g2553.xcl</file>
-            <file>$TOOLKIT_DIR$\inc\msp430g2553.h</file>
             <file>$TOOLKIT_DIR$\inc\intrinsics.h</file>
-            <file>$TOOLKIT_DIR$\inc\dlib\c\ysizet.h</file>
-            <file>$TOOLKIT_DIR$\inc\dlib\c\DLib_Threads.h</file>
-            <file>$PROJ_DIR$\Debug\Obj\SymonSays.pbd</file>
-            <file>$PROJ_DIR$\Debug\Exe\SymonSays.d43</file>
+            <file>$PROJ_DIR$\Debug\Obj\LCD_Port1V3.pbi</file>
+            <file>$TOOLKIT_DIR$\inc\dlib\c\stdlib.h</file>
+            <file>$PROJ_DIR$\Debug\Obj\SysmonSays.__cstat.et</file>
             <file>$PROJ_DIR$\Debug\Obj\SysmonSays.pbi</file>
             <file>$TOOLKIT_DIR$\inc\dlib\c\xtgmath.h</file>
-            <file>$PROJ_DIR$\Debug\Obj\SysmonSays.r43</file>
-            <file>$PROJ_DIR$\Debug\Obj\SysmonSays.__cstat.et</file>
-            <file>$TOOLKIT_DIR$\inc\dlib\c\DLib_Defaults.h</file>
-            <file>$TOOLKIT_DIR$\inc\in430.h</file>
-            <file>$TOOLKIT_DIR$\inc\dlib\c\math.h</file>
-            <file>$PROJ_DIR$\Debug\Exe\SymonSays.ulp</file>
-            <file>$PROJ_DIR$\Debug\Obj\LCD_Port1V3.r43</file>
-            <file>$TOOLKIT_DIR$\inc\dlib\c\stdlib.h</file>
-            <file>$TOOLKIT_DIR$\inc\dlib\c\xencoding_limits.h</file>
-            <file>$TOOLKIT_DIR$\inc\dlib\c\ymath.h</file>
+            <file>$PROJ_DIR$\Debug\Exe\SymonSays.d43</file>
             <file>$TOOLKIT_DIR$\inc\dlib\c\string.h</file>
-            <file>$PROJ_DIR$\Debug\Obj\LCD_Port1V3.__cstat.et</file>
+            <file>$TOOLKIT_DIR$\inc\dlib\c\ymath.h</file>
+            <file>$TOOLKIT_DIR$\inc\in430.h</file>
+            <file>$TOOLKIT_DIR$\inc\dlib\c\ysizet.h</file>
+            <file>$TOOLKIT_DIR$\inc\dlib\c\math.h</file>
+            <file>$TOOLKIT_DIR$\config\linker\lnk430g2553.xcl</file>
+            <file>$TOOLKIT_DIR$\inc\msp430g2553.h</file>
             <file>$TOOLKIT_DIR$\inc\dlib\c\time.h</file>
-            <file>$PROJ_DIR$\Debug\Obj\LCD_Port1V3.pbi</file>
+            <file>$PROJ_DIR$\Debug\Exe\SymonSays.ulp</file>
+            <file>$TOOLKIT_DIR$\inc\dlib\c\DLib_Defaults.h</file>
+            <file>$PROJ_DIR$\Debug\Obj\SymonSays.pbd</file>
+            <file>$PROJ_DIR$\Debug\Obj\LCD_Port1V3.r43</file>
+            <file>$TOOLKIT_DIR$\inc\dlib\c\xencoding_limits.h</file>
+            <file>$PROJ_DIR$\Debug\Obj\SysmonSays.r43</file>
+            <file>$PROJ_DIR$\..\ProjetoAlarmev3\ProjetoAlarmeV3.c</file>
         </outputs>
+        <file>
+            <name>[ROOT_NODE]</name>
+            <outputs>
+                <tool>
+                    <name>XLINK</name>
+                    <file> 18 3</file>
+                </tool>
+                <tool>
+                    <name>ULP430</name>
+                    <file> 27</file>
+                </tool>
+            </outputs>
+        </file>
         <file>
             <name>$PROJ_DIR$\LCD_Port1V3.c</name>
             <outputs>
                 <tool>
                     <name>ICC430</name>
-                    <file> 24</file>
-                </tool>
-                <tool>
-                    <name>__cstat</name>
-                    <file> 29</file>
+                    <file> 30</file>
                 </tool>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 31</file>
+                    <file> 13</file>
+                </tool>
+                <tool>
+                    <name>__cstat</name>
+                    <file> 5</file>
                 </tool>
             </outputs>
             <inputs>
                 <tool>
                     <name>ICC430</name>
-                    <file> 10 21 11</file>
+                    <file> 25 21 12</file>
                 </tool>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 11 21 10</file>
+                    <file> 12 21 25</file>
                 </tool>
             </inputs>
         </file>
@@ -70,53 +85,40 @@
             <outputs>
                 <tool>
                     <name>ICC430</name>
-                    <file> 18</file>
-                </tool>
-                <tool>
-                    <name>__cstat</name>
-                    <file> 19</file>
+                    <file> 32</file>
                 </tool>
                 <tool>
                     <name>BICOMP</name>
                     <file> 16</file>
                 </tool>
+                <tool>
+                    <name>__cstat</name>
+                    <file> 15</file>
+                </tool>
             </outputs>
             <inputs>
                 <tool>
                     <name>ICC430</name>
-                    <file> 10 21 11 22 4 27 0 20 8 3 26 13 17 25 12 30 7 28</file>
+                    <file> 25 21 12 23 1 20 6 28 4 2 31 7 17 14 22 26 9 19</file>
                 </tool>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 4 0 27 30 21 26 12 22 28 11 13 25 7 17 20 10 8 3</file>
+                    <file> 1 21 31 26 17 4 6 23 19 2 22 12 14 9 20 28 7 25</file>
                 </tool>
             </inputs>
-        </file>
-        <file>
-            <name>[ROOT_NODE]</name>
-            <outputs>
-                <tool>
-                    <name>ULP430</name>
-                    <file> 23</file>
-                </tool>
-                <tool>
-                    <name>XLINK</name>
-                    <file> 15 6</file>
-                </tool>
-            </outputs>
         </file>
         <file>
             <name>$PROJ_DIR$\Debug\Exe\SymonSays.d43</name>
             <outputs>
                 <tool>
                     <name>XLINK</name>
-                    <file> 6</file>
+                    <file> 3</file>
                 </tool>
             </outputs>
             <inputs>
                 <tool>
                     <name>XLINK</name>
-                    <file> 9 24 18 5</file>
+                    <file> 24 30 32 8</file>
                 </tool>
             </inputs>
         </file>

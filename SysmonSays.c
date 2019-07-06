@@ -15,6 +15,8 @@ extern void EscDado(unsigned char dado);
 extern void GotoXY(unsigned char Linha,unsigned char Coluna);
 extern void MString(unsigned char *str);
 
+void result(unsigned char *str);
+
 //Variaveis globais do sistema   
 unsigned char tecla;
 unsigned char lcdLin = 0,lcdCol = 0;     //linha e coluna do LCD
@@ -31,6 +33,12 @@ unsigned char pontuacao[4];
 bool multAcerto = true;
 int ctUn = 0;
 int delay = 0;
+int mil = 0;
+int cent = 0;
+int dec = 0;
+int un = 0;
+int teste = 2;
+char str[6];
 
 void main(void)
 {
@@ -88,6 +96,19 @@ void main(void)
   }
 }
 
+void result(unsigned char *str) {
+  
+  while(!(IFG2 & UCA0TXIFG)); //ESPERA O BUFFER DE TX FICAR VAZIO
+  while (*str) { //Enquanto o vetor de caracteres não estiver vazio
+    while(!(IFG2 & UCA0TXIFG)); //ESPERA O BUFFER DE TX FICAR VAZIO
+    UCA0TXBUF = (*str); //Envia caracter pela serial
+    str++; //Vai para próxima casa do vetor
+  }
+  while(!(IFG2 & UCA0TXIFG)); //ESPERA O BUFFER DE TX FICAR VAZIO
+  if (~*str) { //Se o vetor de caracteres estiver vazio
+    UCA0TXBUF = 0x0A; //Envia caracter final
+  }
+}
 
 // TRATAMENTO DE INTERRUPÇÃO DO TIMER0A
 #pragma vector = TIMER0_A1_VECTOR
@@ -148,6 +169,7 @@ __interrupt void isr_TIMERA0(void) {
         if ((ctPosicaoVetor) == ctAcerto) {
           vetorPosicao[ctPosicaoVetor] = rand()%4;
           ctAcerto++;
+          teste = teste + 10;
           estado = 0;
           ctPosicaoVetor = 0;
           P2OUT = 0x00;
@@ -157,21 +179,25 @@ __interrupt void isr_TIMERA0(void) {
             P2OUT |= BIT0;
             ligaLed = false;
             ctUn++;
+            teste++;
         }
         if (vetorPosicao[ctPosicaoVetor] == 1) {
             P2OUT |= BIT1;
             ligaLed = false;
             ctUn++;
+            teste++;
         }
         if (vetorPosicao[ctPosicaoVetor] == 2) {
             P2OUT |= BIT2;
             ligaLed = false;
             ctUn++;
+            teste++;
         }
         if (vetorPosicao[ctPosicaoVetor] == 3) {
             P2OUT |= BIT3;
             ligaLed = false;
             ctUn++;
+            teste++;
         }
         ctPosicaoVetor++;
       }
@@ -187,31 +213,36 @@ __interrupt void isr_TIMERA0(void) {
         if (multAcerto == true) {  
           ctAcerto = ((ctAcerto-2)*10)+ctUn;
           multAcerto = false;
+          mil = (int)ctAcerto/1000;
+          ctAcerto = (int)ctAcerto%1000;
+          cent = (int)ctAcerto/100;
+          ctAcerto = (int)ctAcerto%100;
+          dec = (int)ctAcerto/10;
+          un = (int)ctAcerto%10;
+          mil = mil + '0';
+          cent = cent + '0';
+          dec = dec + '0';
+          un = un + '0';
+          pontuacao[0] = mil;
+          pontuacao[1] = cent;
+          pontuacao[2] = dec;
+          pontuacao[3] = un;
+        
+          GotoXY(1,0);              //Posiciona Cursor
+          MString("  SCORE:  "); //Escreve no display
+          GotoXY(1,10);              //Posiciona Cursor
+          MString(pontuacao); //Escreve no display
+          GotoXY(1,14);
+          MString("  "); //Escreve no display
+          GotoXY(0,0);              //Posiciona Cursor
+          MString("   GAME OVER!   "); //Escreve no display
+          
+          strcpy(str, "T ");
+          strcat(str, pontuacao);
+          result(str);
         }
       
-        int mil = ctAcerto/1000;
-        ctAcerto = ctAcerto%1000;
-        int cent = ctAcerto/100;
-        ctAcerto = ctAcerto%100;
-        int dec = ctAcerto/10;
-        int un = ctAcerto%10;
-        mil = mil + '0';
-        cent = cent + '0';
-        dec = dec + '0';
-        un = un + '0';
-        pontuacao[0] = mil;
-        pontuacao[1] = cent;
-        pontuacao[2] = dec;
-        pontuacao[3] = un;
-      
-      GotoXY(1,0);              //Posiciona Cursor
-      MString("  SCORE:  "); //Escreve no display
-      GotoXY(1,10);              //Posiciona Cursor
-      MString(pontuacao); //Escreve no display
-      GotoXY(1,14);
-      MString("  "); //Escreve no display
-      GotoXY(0,0);              //Posiciona Cursor
-      MString("   GAME OVER!   "); //Escreve no display
+        
       
       break;
     }
@@ -246,7 +277,7 @@ __interrupt void ISR_RX(void) {
       }
       
       if (estado == 1) {
-        if (UCA0RXBUF == 'G') {
+        if (UCA0RXBUF == 'B') {
           if (vetorPosicao[ctPosicaoVetor] == 0) {
             ligaLed = true;
           }
@@ -254,7 +285,7 @@ __interrupt void ISR_RX(void) {
             estado = 2;
           }
         }
-        if (UCA0RXBUF == 'R') {
+        if (UCA0RXBUF == 'W') {
           if (vetorPosicao[ctPosicaoVetor] == 1) {
             ligaLed = true;
           }
@@ -262,7 +293,7 @@ __interrupt void ISR_RX(void) {
             estado = 2;
           }
         }
-        if (UCA0RXBUF == 'W') {
+        if (UCA0RXBUF == 'R') {
           if (vetorPosicao[ctPosicaoVetor] == 2) {
             ligaLed = true;
           }
@@ -270,7 +301,7 @@ __interrupt void ISR_RX(void) {
             estado = 2;
           }
         }
-        if (UCA0RXBUF == 'B') {
+        if (UCA0RXBUF == 'Y') {
           if (vetorPosicao[ctPosicaoVetor] == 3) {
             ligaLed = true;
           }
